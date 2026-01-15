@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1><%= title %></h1>
+    <% if (step == 1) { %>
+      <form action="/quiz" method="POST">
+        <h2>Question 1: What's your favorite color?</h2>
+        <input type="radio" name="q1" value="red" required /> Red<br />
+        <input type="radio" name="q1" value="blue" /> Blue<br />
+        <input type="radio" name="q1" value="green" /> Green<br />
+        <button type="submit">Next</button>
+      </form>
+    <% } else if (step == 2) { %>
+      <form action="/quiz" method="POST"> 
+        <h2>Question 2: What's your favorite animal?</h2>
+        <input type="radio" name="q2" value="cat" required /> Cat<br />
+        <input type="radio" name="q2" value="dog" /> Dog<br />
+        <input type="radio" name="q2" value="bird" /> Bird<br />
+        <input type="hidden" name="q1" value="<%= state.q1 %>" />
+        <button type="submit">Next</button>
+      </form>
+    <% } %>
+  </main>
+</body>
+</html>
