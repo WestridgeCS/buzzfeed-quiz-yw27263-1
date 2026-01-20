@@ -9,23 +9,123 @@
 <body>
   <main class="wrap">
     <h1><%= title %></h1>
-    <% if (step == 1) { %>
+    <% if (step === 1) { %>
       <form action="/quiz" method="POST">
-        <h2>Question 1: What's your favorite color?</h2>
-        <input type="radio" name="q1" value="red" required /> Red<br />
-        <input type="radio" name="q1" value="blue" /> Blue<br />
-        <input type="radio" name="q1" value="green" /> Green<br />
+        <h2>Question 1: You open your fridge and it says your name. You:</h2>
+
+        <input type="radio" name="q1" value="nap" id="q1-nap" required />
+        <label for="q1-nap">Nod, of course it does.</label><br />
+
+        <input type="radio" name="q1" value="li" id="q1-li" />
+        <label for="q1-li">Grab the wine.</label><br />
+
+        <input type="radio" name="q1" value="soc" id="q1-soc" />
+        <label for="q1-soc">Ask how it knows your name.</label><br />
+
         <button type="submit">Next</button>
       </form>
-    <% } else if (step == 2) { %>
+    <% } else if (step === 2) { %>
       <form action="/quiz" method="POST"> 
-        <h2>Question 2: What's your favorite animal?</h2>
-        <input type="radio" name="q2" value="cat" required /> Cat<br />
-        <input type="radio" name="q2" value="dog" /> Dog<br />
-        <input type="radio" name="q2" value="bird" /> Bird<br />
+        <h2>Question 2: A duck challenges you to a duel: weopens are negotiable.</h2>
+    
+        <input type="radio" name="q2" value="soc" id="q2-soc" />
+        <label for="q2-soc">Define 'duck'. Define 'duel'</label><br />
+
+        <input type="radio" name="q2" value="nap" id="q2-nap" required />
+        <label for="q2-nap">Nuke the duck.</label><br />
+
+        <input type="radio" name="q2" value="li" id="q2-li" />
+        <label for="q2-li">We simply stare until one of us cries.</label><br />
+
         <input type="hidden" name="q1" value="<%= state.q1 %>" />
         <button type="submit">Next</button>
       </form>
+    <% } else if (step === 3) { %>
+      <form action="/quiz" method="POST"> 
+        <h2>Question 3: This quiz loads upside down. You:</h2>
+
+        <input type="radio" name="q3" value="li" id="q3-li" />
+        <label for="q3-li">Lie on the floor to match it.</label><br />
+
+        <input type="radio" name="q3" value="nap" id="q3-nap" required />
+        <label for="q3-nap">Rotate the phone to establish authority.</label><br />
+
+        <input type="radio" name="q3" value="soc" id="q3-soc" />
+        <label for="q3-soc">Wonder if orientation is a social construct.</label><br />
+
+        <input type="hidden" name="q1" value="<%= state.q1 %>" />
+        <input type="hidden" name="q2" value="<%= state.q2 %>" />
+        <button type="submit">Next</button>
+      </form>
+    <% } else if (step === 4) { %>
+      <form action="/quiz" method="POST"> 
+        <h2>Question 4: You are:</h2>
+
+        <input type="radio" name="q4" value="nap" id="q4-nap" required />
+        <label for="q4-nap">Right.</label><br />
+
+        <input type="radio" name="q4" value="soc" id="q4-soc" />
+        <label for="q4-soc">Technically correct.</label><br />
+
+        <input type="radio" name="q4" value="li" id="q4-li" />
+        <label for="q4-li">Emotionally elsewhere.</label><br />
+
+        <input type="hidden" name="q1" value="<%= state.q1 %>" />
+        <input type="hidden" name="q2" value="<%= state.q2 %>" />
+        <input type="hidden" name="q3" value="<%= state.q3 %>" />
+        <button type="submit">Next</button>
+      </form>
+    <% } else if (step === 5) { %>
+      <h1>Outcome!</h1>
+
+      <% if (outcome.heading === 'Napolean') { %>
+        <img id="nap_pic" src="/pictures/Napolean.png" alt="Napolean">
+      <% } else if (outcome.heading === 'Li Bai') { %>
+        <img id="li_pic" src="/pictures/liBai.jpg" alt="Li Bai">
+      <% } else if (outcome.heading === 'Socrates') { %>
+        <img id="soc_pic" src="/pictures/Socrates.jpg" alt="Socrates">
+      <% } else if (outcome.heading === 'ANNIKA') { %>
+        <img id="annika_pic" src="/pictures/annika.jpg" alt="ANNIKA">
+
+        <div class="confetti" id="confetti"></div>
+        <script>
+          function createConfettiPiece() {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'absolute';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.background = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0', '#00f'][Math.floor(Math.random() * 6)];
+            confetti.style.top = '-10px';
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.opacity = Math.random();
+            confetti.style.borderRadius = '50%';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.getElementById('confetti').appendChild(confetti);
+
+            let fall = 0;
+            const speed = 2 + Math.random() * 3;
+
+            function animate() {
+              fall += speed;
+              confetti.style.top = fall + 'px';
+              confetti.style.left = parseFloat(confetti.style.left) + Math.sin(fall / 10) * 2 + 'px';
+              if (fall < window.innerHeight) requestAnimationFrame(animate);
+              else confetti.remove();
+            }
+            animate();
+          }
+
+          for (let i = 0; i < 100; i++) {
+            setTimeout(createConfettiPiece, i * 30);
+          }
+        </script>
+      <% } %>
+      <h2 id="outcome-heading"><%= outcome.heading %></h2>
+      <p id="outcome-text"><%= outcome.text %></p>
+      <form action="/" method="GET" style="text-align:center; margin-top: 2rem;">
+        <button type="submit" class="again-btn">Take the Quiz Again</button>
+      </form>
+
     <% } %>
   </main>
 </body>
