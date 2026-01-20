@@ -35,14 +35,14 @@
         <label for="q2-nap">Nuke the duck.</label><br />
 
         <input type="radio" name="q2" value="li" id="q2-li" />
-        <label for="q2-li">We seimply stare until one of us cries.</label><br />
+        <label for="q2-li">We simply stare until one of us cries.</label><br />
 
         <input type="hidden" name="q1" value="<%= state.q1 %>" />
         <button type="submit">Next</button>
       </form>
     <% } else if (step === 3) { %>
       <form action="/quiz" method="POST"> 
-        <h2>Question 3: This quiz load upside down. You:</h2>
+        <h2>Question 3: This quiz loads upside down. You:</h2>
 
         <input type="radio" name="q3" value="li" id="q3-li" />
         <label for="q3-li">Lie on the floor to match it.</label><br />
